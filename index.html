@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Employee Data Management</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://www.gstatic.com/firebasejs/5.5.1/firebase.js"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+
+
+</head>
+
+<body>
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-3">Anytime is Train Time</h1>
+        <p class="lead">Choo Choo</p>
+        <hr class="my-2">
+        <p>you'll never be late again</p>
+
+    </div>
+</div>
+<div class="container">
+
+
+    <div class="table-responsive">
+        <table class="table" id="toptable">
+            <thead>
+            <tr>
+                <th>Train Name</th>
+                <th>Destination</th>
+                <th>First Train of the Day</th>
+                <th>Frequency</th>
+                <th>Minutes Away</th>
+            </tr>
+            </thead>
+            <tbody class="tbody">
+            <tr id="tableRow">
+                <td id="employeeName"></td>
+                <td id="role"></td>
+                <td id="startDate"></td>
+                <td id="monthlyRate"></td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-10">
+            <div class="card card-default">
+                <div class="card-header">
+                    Add a Train
+                </div>
+                <div class="card-body">
+
+                    <form role="form">
+                        <div class="form-group">
+                            <label for="train-name">Train Name:</label>
+                            <input class="form-control" id="train-name" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label for="destination-input">Destination:</label>
+                            <input class="form-control" id="destination-input" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label for="first-train">First Train Run Time (HH:mm):</label>
+                            <input class="form-control" id="first-train" type="time">
+                        </div>
+                        <div class="form-group">
+                            <label for="frequency-input">Frequency:</label>
+                            <input class="form-control" id="frequency-input" type="text">
+                        </div>
+                        <button class= 'btn btn-default' id="add-user" type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var config = {
+        apiKey: "AIzaSyBmoLsmEE1FZoUbkCU1Kxo7DAb3oxTDlGQ",
+        authDomain: "project1-1103c.firebaseapp.com",
+        databaseURL: "https://project1-1103c.firebaseio.com",
+        projectId: "project1-1103c",
+        storageBucket: "project1-1103c.appspot.com",
+        messagingSenderId: "1040860169041"
+    };
+    firebase.initializeApp(config);
+
+
+
+
+    let db = firebase.database();
+    let trainName=" ";
+    let destination=" ";
+    let trainStart=" ";
+    let frequency=" ";
+
+    $('#add-user').on('click', (event)=>{
+        event.preventDefault();
+        trainName = $("#train-name").val();
+        destination = $("#destination-input").val();
+        trainStart= $("#first-train").val();
+        frequency= $("#frequency-input").val();
+
+        db.ref().push({
+            "employeeName":trainName,
+            'role':destination,
+            "startDate":trainStart,
+            "monthlyRate":frequency
+        });
+        $("#train-name").val("");
+        $("#destination-input").val("");
+        $("#first-train").val("");
+        $("#frequency-input").val("");
+
+
+
+    db.ref().on("child_added", (snapshot) => {
+        var nTrainName = snapshot.val().employeeName;
+        var nDestination = snapshot.val().role;
+        var nTrainStart = snapshot.val().monthlyRate;
+        var nFrequency = snapshot.val().startDate;
+        // var nextTrain=0;
+        // var time = startDate.split(":");
+        // var currentTime= moment().format('h:mm');
+        // console.log(startDate);
+        // console.log(time);
+        // console.log(currentTime);
+        // var currentsplit=currentTime.split(":");
+        // console.log(currentsplit);
+        // var trainTd = $("<td>").text(employeeName);
+        // var destTd = $("<td>").text(role);
+        // var nextTrainTd = $("<td>").text(nextTrain);
+        // var trainFrequencyTd = $("<td>").text(monthlyRate);
+        // var tMinutesTillTrainTd = $("<td>").text(((currentsplit[0]*60+currentsplit[1])-(time[0]*60+time[1]))%monthlyRate);
+        // console.log(tMinutesTillTrainTd);
+
+        $(".tbody").append(
+            `<tr>
+        <td> ${snapshot.val().employeeName}</td>
+        <td> ${snapshot.val().role}</td>
+        <td> ${snapshot.val().startDate}</td>
+        <td> ${snapshot.val().monthlyRate}
+        </td>
+        </tr>
+      `
+        );
+
+        // var time = moment(nFirstTrain, "HH:mm").val();
+        // var currentTime = moment();
+        // var timesub= moment().diff(moment(time), "minutes");
+        // var tLeft = timesub % nFrequency;
+        // var minutesLeft = nFrequency-tLeft;
+
+
+
+
+    })
+    });
+
+    </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+
+</body>
+
+</html>
