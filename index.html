@@ -45,13 +45,6 @@
             </tr>
             </thead>
             <tbody class="tbody">
-            <tr id="tableRow">
-                <td id="employeeName"></td>
-                <td id="role"></td>
-                <td id="startDate"></td>
-                <td id="monthlyRate"></td>
-            </tr>
-
             </tbody>
         </table>
     </div>
@@ -81,7 +74,7 @@
                             <label for="frequency-input">Frequency:</label>
                             <input class="form-control" id="frequency-input" type="text">
                         </div>
-                        <button class= 'btn btn-default' id="add-user" type="submit">Submit</button>
+                        <button class= 'btn btn-default' id="add-user" type="submit">Press to add a Train or to see Current Trains!</button>
                     </form>
                 </div>
             </div>
@@ -107,6 +100,7 @@
     let destination=" ";
     let trainStart=" ";
     let frequency=" ";
+
 
     $('#add-user').on('click', (event)=>{
         event.preventDefault();
