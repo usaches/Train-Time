@@ -14,7 +14,9 @@
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js"></script>
+    <script src="https://unpkg.com/moment"></script>
 
 
 </head>
@@ -94,12 +96,16 @@
 
 
 
+ $(".tbody").show();
 
     let db = firebase.database();
     let trainName=" ";
     let destination=" ";
     let trainStart=" ";
     let frequency=" ";
+
+
+
 
 
     $('#add-user').on('click', (event)=>{
@@ -121,13 +127,14 @@
         $("#frequency-input").val("");
 
 
+    });
 
     db.ref().on("child_added", (snapshot) => {
         var nTrainName = snapshot.val().employeeName;
         var nDestination = snapshot.val().role;
         var nTrainStart = snapshot.val().monthlyRate;
         var nFrequency = snapshot.val().startDate;
-        // var nextTrain=0;
+        var nextTrain=0;
         // var time = startDate.split(":");
         // var currentTime= moment().format('h:mm');
         // console.log(startDate);
@@ -141,7 +148,7 @@
         // var trainFrequencyTd = $("<td>").text(monthlyRate);
         // var tMinutesTillTrainTd = $("<td>").text(((currentsplit[0]*60+currentsplit[1])-(time[0]*60+time[1]))%monthlyRate);
         // console.log(tMinutesTillTrainTd);
-
+        var tLeft=0;
         $(".tbody").append(
             `<tr>
         <td> ${snapshot.val().employeeName}</td>
@@ -149,11 +156,11 @@
         <td> ${snapshot.val().startDate}</td>
         <td> ${snapshot.val().monthlyRate}
         </td>
-        </tr>
-      `
+        </tr>`
         );
-        //
-        // var time = moment(nTrainStart, "HH:mm").val();
+
+        // var time = db.ref().startDate;
+        // console.log(time);
         // var currentTime = moment();
         // var timesub= moment().diff(moment(time), "minutes");
         // var tLeft = timesub % nFrequency;
@@ -164,16 +171,16 @@
 
 
 
-    })
-    });
 
+    });
+console.log(moment().format("HH:mm"));
     </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
         crossorigin="anonymous"></script>
 
-<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+
 
 </body>
 
